@@ -9,7 +9,7 @@ export default function Registration() {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
-    const [userData, setUserData] = useState({username:'',password:'', confirmPassword:'', email:'', initialDeposit:''})
+    const [userData, setUserData] = useState({username:'',password:'', confirmPassword:'', email:'', balance:''})
     const [checkingType, setCheckingType] = useState(false);
     const [savingType, setSavingType] = useState(false);
 
@@ -140,7 +140,7 @@ export default function Registration() {
                             <Form.Control
                                 type="number"
                                 placeholder="Initial Deposit"
-                                name="initialDeposit"
+                                name="balance"
                                 onChange = {handleInputChange}
                                 required
                                 >
