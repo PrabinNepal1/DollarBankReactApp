@@ -1,20 +1,28 @@
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from 'react-router-dom';
+
+
+import Homepage from './component/homepage';
+import Registration from './component/registration';
+import Login from './component/login';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-       Dollar Bank Application
-      </header>
-      <div className="App-body">
-        <div>
-          <button>Create Account</button> 
-        </div>
-        <div>
-          <button>Login</button> 
-        </div>
-      </div>
-    </div>
+    
+      <Router>
+        <Routes>
+          <>
+            <Route  path='/' element={<Homepage/>}/>
+            <Route  path='/registration' element={<Registration/>}/>
+            <Route  path='/login' element={<Login/>}/>
+          </>
+        </Routes>
+      </Router>
+    
   );
 }
 
