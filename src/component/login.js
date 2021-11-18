@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from 'react-router-dom';
 import {Container, Card, Form, Button, FloatingLabel, Alert} from "react-bootstrap";
 
@@ -9,7 +9,12 @@ export default function Login() {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
-    const user = useState(JSON.parse(localStorage.getItem("user")))
+    const [user, setUser] = useState([]);
+
+    useEffect(()=> {
+        const userDetails = localStorage.getItem("user")
+        setUser(JSON.parse(userDetails))
+    },[])
 
     const [userData, setUserData] = useState({username:'',password:''})
 
@@ -32,7 +37,7 @@ export default function Login() {
             setError("Invalid Credentials!")
             
         }
-
+        
         setLoading(false)
 
     }
@@ -46,11 +51,11 @@ export default function Login() {
             <Card.Body>
                 {error && <Alert variant="danger">{error}</Alert>}
                 {message && <Alert variant="success">{message}</Alert>}
-                <Form className="mx-3" onSubmit={handleSubmit} >
+                <Form className="mx-3" >
                 
                 <Form.Group>
                     <FloatingLabel
-                        controlId="floatingInput"
+                        controlId="floatingInput1"
                         label="Username"
                         className="mb-3">
                             <Form.Control
@@ -67,7 +72,7 @@ export default function Login() {
 
                     <Form.Group>
                     <FloatingLabel
-                        controlId="floatingInput"
+                        controlId="floatingInput2"
                         label="Password"
                         className="mb-3">
                             <Form.Control
@@ -82,7 +87,7 @@ export default function Login() {
                              <Form.Text className="text-danger" muted></Form.Text>
                     </Form.Group>
                     
-                    <Button disabled={loading} className="w-100 mt-2" type="submit ">Login</Button>
+                    <Button disabled={loading} className="w-100 mt-2" onClick={handleSubmit}>Login</Button>
 
                 </Form>
              </Card.Body>
@@ -90,7 +95,7 @@ export default function Login() {
         
 
         <div className="w-100 text-center mt-2">
-                Don't have an account yet? <Link to='/login'> Resgister Now</Link>
+                Don't have an account yet? <Link to='/registration'> Resgister Now</Link>
         </div>
         </Container>
     )

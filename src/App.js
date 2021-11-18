@@ -9,6 +9,7 @@ import {
 import Homepage from './component/homepage';
 import Registration from './component/registration';
 import Login from './component/login';
+import Userpage from './component/userpage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route  path='/' element={<Homepage/>}/>
             <Route  path='/registration' element={<Registration/>}/>
             <Route  path='/login' element={<Login/>}/>
+            <Route  path='/userpage' element={<Userpage/>}/>
           </>
         </Routes>
       </Router>
