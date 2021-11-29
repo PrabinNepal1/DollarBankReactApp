@@ -16,7 +16,7 @@ export default function Login() {
         setUser(JSON.parse(userDetails))
     },[])
 
-    const [userData, setUserData] = useState({username:'',password:''})
+    const [userData, setUserData] = useState({username:'',password:'' })
 
     const handleInputChange = e => {
         const { name, value } = e.target

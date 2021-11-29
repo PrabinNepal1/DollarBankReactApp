@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from 'react-router-dom';
 import {Card, Form, Button, Container, FloatingLabel, Alert} from "react-bootstrap";
 
@@ -9,9 +9,18 @@ export default function Registration() {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
+    const userDetails = localStorage.getItem("user")
+    const [users, setUsers] = useState([])
     const [userData, setUserData] = useState({username:'',password:'', confirmPassword:'', email:'', balance:''})
     const [checkingType, setCheckingType] = useState(false);
     const [savingType, setSavingType] = useState(false);
+
+    useEffect(()=> {
+        if(userDetails !== null){
+            setUsers(JSON.parse(userDetails))
+            console.log(userDetails)
+        }
+    },[userDetails])
 
     const handleCheckbox1 = e =>{
         setCheckingType(e.target.checked);
@@ -29,6 +38,9 @@ export default function Registration() {
     }
 
     const handleSubmit = (e) =>{
+
+        e.preventDefault()
+
         if(userData.password !== userData.confirmPassword){
             setError("Password doesn't match");
         }
@@ -37,17 +49,23 @@ export default function Registration() {
             setError("You can only open one account at a time! Please deselect one account!")
         }
         else{
-            e.preventDefault()
+           
             setLoading(true)
             setError("")
-            localStorage.setItem("user", JSON.stringify({username: userData.username, 
-                                                        password: userData.password, 
-                                                        email: userData.email, 
-                                                        itnitialDeposit: userData.initialDeposit,
-                                                        checkingAccount: checkingType,
-                                                        savingAccount: savingType }))
+            setUsers(existingUsers => [...existingUsers, {
+                                            userId:existingUsers.length, 
+                                            username: userData.username, 
+                                            password: userData.password, 
+                                            email: userData.email, 
+                                            balance: userData.balance,
+                                            checkingAccount: checkingType,
+                                            savingAccount: savingType }])
+            console.log(users)
+            localStorage.setItem("users", JSON.stringify(users))
             
             setMessage("Successfully Created Your Account")
+
+            alert("Successfully Created Your Account. Please login to Continue");
             
             navigate("/login");
                 
@@ -63,10 +81,10 @@ export default function Registration() {
             <Card.Body>
                 {error && <Alert variant="danger">{error}</Alert>}
                 {message && <Alert variant="success">{message}</Alert>}
-                <Form className="mx-3" onSubmit={handleSubmit} >
+                <Form className="mx-3" >
                     <Form.Group>
                     <FloatingLabel
-                        controlId="floatingInput"
+                        controlId="floatingInput1"
                         label="Username"
                         className="mb-3">
                             <Form.Control
@@ -83,7 +101,7 @@ export default function Registration() {
 
                     <Form.Group>
                     <FloatingLabel
-                        controlId="floatingInput"
+                        controlId="floatingInput2"
                         label="Password"
                         className="mb-3">
                             <Form.Control
@@ -100,7 +118,7 @@ export default function Registration() {
 
                     <Form.Group>
                         <FloatingLabel
-                            controlId="floatingInput"
+                            controlId="floatingInput3"
                             label="Confirm Password"
                             className="mb-3">
                             <Form.Control
@@ -117,7 +135,7 @@ export default function Registration() {
 
                     <Form.Group>
                     <FloatingLabel
-                        controlId="floatingInput"
+                        controlId="floatingInput4"
                         label="Email"
                         className="mb-3">
                             <Form.Control
@@ -134,7 +152,7 @@ export default function Registration() {
 
                     <Form.Group>
                     <FloatingLabel
-                        controlId="floatingInput"
+                        controlId="floatingInput5"
                         label="Initial Deposit"
                         className="mb-3">
                             <Form.Control
@@ -159,7 +177,7 @@ export default function Registration() {
 
 
                     
-                    <Button disabled={loading} className="w-100 mt-2" type="submit ">Sign-Up</Button>
+                    <Button disabled={loading} className="w-100 mt-2" type="submit" onClick={handleSubmit}>Sign-Up</Button>
                 </Form>
              </Card.Body>
         </Card>

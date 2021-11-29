@@ -5,12 +5,17 @@ export default function Userpage(){
     
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState([]);
+    const userDetails = localStorage.getItem("user")
     
     useEffect(()=> {
-        const userDetails = localStorage.getItem("user")
+        
         setUser(JSON.parse(userDetails))
         setLoading(false);
-    },[])
+    },[userDetails])
+
+    function handleLogout(){
+        
+    }
 
     return (
         <Container className="d -flex align-items-center justify-our-content mt-5 mb-5">
@@ -28,7 +33,7 @@ export default function Userpage(){
             { user.savingAccount &&
                     <Card.Title> Account Type: Saving </Card.Title>
             }
-              <Card.Title>Account Balance: {user.balance} </Card.Title>
+              <Card.Title>Account Balance: ${user.balance} </Card.Title>
               <Card.Title className="mt-5" as="h5"> Choose Transactions Option</Card.Title>
               <Card.Body>
                 <Button variant="primary">Deposit</Button>
@@ -38,6 +43,9 @@ export default function Userpage(){
               </Card.Body>
               <Card.Body>
                 <Button variant="primary">Open New Account</Button>
+              </Card.Body>
+              <Card.Body>
+                <Button variant="danger">LogOut</Button>
               </Card.Body>
             </Card.Body>
             </Card>
