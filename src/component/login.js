@@ -9,7 +9,7 @@ export default function Login() {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState();
 
     useEffect(()=> {
         const userDetails = localStorage.getItem("user")

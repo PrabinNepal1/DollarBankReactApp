@@ -1,26 +1,16 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Link, useNavigate} from 'react-router-dom';
 import {Card, Form, Button, Container, FloatingLabel, Alert} from "react-bootstrap";
 
 export default function Registration() {
 
     const [error, setError] = useState('')
-    const [message, setMessage] = useState('')
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
-    const userDetails = localStorage.getItem("user")
-    const [users, setUsers] = useState([])
     const [userData, setUserData] = useState({username:'',password:'', confirmPassword:'', email:'', balance:''})
     const [checkingType, setCheckingType] = useState(false);
     const [savingType, setSavingType] = useState(false);
-
-    useEffect(()=> {
-        if(userDetails !== null){
-            setUsers(JSON.parse(userDetails))
-            console.log(userDetails)
-        }
-    },[userDetails])
 
     const handleCheckbox1 = e =>{
         setCheckingType(e.target.checked);
@@ -38,7 +28,7 @@ export default function Registration() {
     }
 
     const handleSubmit = (e) =>{
-
+        
         e.preventDefault()
 
         if(userData.password !== userData.confirmPassword){
@@ -52,19 +42,14 @@ export default function Registration() {
            
             setLoading(true)
             setError("")
-            setUsers(existingUsers => [...existingUsers, {
-                                            userId:existingUsers.length, 
-                                            username: userData.username, 
-                                            password: userData.password, 
-                                            email: userData.email, 
-                                            balance: userData.balance,
-                                            checkingAccount: checkingType,
-                                            savingAccount: savingType }])
-            console.log(users)
-            localStorage.setItem("users", JSON.stringify(users))
+            localStorage.setItem("user", JSON.stringify({username: userData.username, 
+                password: userData.password, 
+                email: userData.email, 
+                balance: userData.balance,
+                checkingAccount: checkingType,
+                savingAccount: savingType }))
             
-            setMessage("Successfully Created Your Account")
-
+            
             alert("Successfully Created Your Account. Please login to Continue");
             
             navigate("/login");
@@ -75,12 +60,11 @@ export default function Registration() {
         return (
     
             <Container className="d -flex align-items-center justify-our-content mt-5 mb-5">
-        
+
             <Card border="dark" className="mb-2">
             <Card.Header>  <Card.Title className="text-center">USER REGISTRATION</Card.Title> </Card.Header>
             <Card.Body>
                 {error && <Alert variant="danger">{error}</Alert>}
-                {message && <Alert variant="success">{message}</Alert>}
                 <Form className="mx-3" >
                     <Form.Group>
                     <FloatingLabel
@@ -177,7 +161,7 @@ export default function Registration() {
 
 
                     
-                    <Button disabled={loading} className="w-100 mt-2" type="submit" onClick={handleSubmit}>Sign-Up</Button>
+                    <Button disabled={loading} className="w-100 mt-2" onClick={handleSubmit}>Sign-Up</Button>
                 </Form>
              </Card.Body>
         </Card>
