@@ -3,6 +3,7 @@ import {Card, Button, Container} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import DepositModal from "./depositModel";
 import WithdrawModal from "./withdrawModal";
+import NewAccountModal from "./newAccountModal";
 
 export default function Userpage(){
     
@@ -13,6 +14,7 @@ export default function Userpage(){
     
     const [depositModalShow, setDepositModalShow] = useState(false);
     const [withdrawModalShow, setWithdrawModalShow] = useState(false);
+    const [newAccountModalShow, setNewAccountModalShow] = useState(false);
 
 
     useEffect(()=> {
@@ -54,8 +56,10 @@ export default function Userpage(){
               <WithdrawModal  show={withdrawModalShow}
                               onHide={() => setWithdrawModalShow(false)}/>
               <Card.Body>
-                <Button variant="primary">Open New Account</Button>
+                <Button variant="primary" onClick={() => setNewAccountModalShow(true)}>Open New Account</Button>
               </Card.Body>
+              <NewAccountModal show={newAccountModalShow}
+                              onHide={() => setNewAccountModalShow(false)}/>
               <Card.Body>
                 <Button variant="danger" onClick={handleLogout}>LogOut</Button>
               </Card.Body>
